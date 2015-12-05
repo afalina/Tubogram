@@ -211,7 +211,6 @@ function page_header($header_type, $active_menu_item=null) {
                 <li <? if ($active_menu_item == 'best_videos'): ?>class="active"<? endif ?>><a href="<? echo APP_URL ?>/best_videos.php">Популярні</a></li>
                 <? if ($header_type == 'logged'): ?>
                     <li <? if ($active_menu_item == 'feed'): ?>class="active"<? endif ?>><a href="<? echo APP_URL ?>/feed.php">Мої підписки</a></li>
-                    <li <? if ($active_menu_item == 'create_post'): ?>class="active"<? endif ?>><a href="<? echo APP_URL ?>/create_post.php">Додати відео</a></li>
                 <? endif ?>
             </ul>
 
@@ -224,6 +223,13 @@ function page_header($header_type, $active_menu_item=null) {
 
             <? if ($header_type == 'logged'): ?>
                 <ul class="nav navbar-nav navbar-right">
+                    <? if ($active_menu_item != 'create_post'): ?>
+                        <li>
+                            <p class="navbar-btn">
+                                <a href="<? echo APP_URL ?>/create_post.php" class="btn btn-default"><span class="glyphicon glyphicon-film"></span> Додати відео</a>
+                            </p>
+                        </li>
+                    <? endif ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-user"></span>
@@ -301,8 +307,7 @@ function post_list($posts) { ?>
                             src="<? echo youtube_thumb_url(get_video_id_from_youtube_link($post['link'])) ?>">
                     </a>
                     <div class="caption">
-                        <a href="<? echo APP_URL . '/user.php?id=' . $post['user_id'] ?>"><? echo $post['username'] ?>
-                        </a>
+                        <a href="<? echo APP_URL . '/user.php?id=' . $post['user_id'] ?>"><? echo $post['username'] ?></a>
                         <small class="text-muted"><? echo format_date($post['created_at']) ?></small>
                         <small class="text-muted pull-right">
                             <span class="glyphicon glyphicon-heart"></span> 

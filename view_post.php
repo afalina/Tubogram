@@ -44,8 +44,7 @@ if (get_current_user_id()) {
     <h4>
         Запощено
         <a href="<? echo APP_URL . '/user.php?id=' . $post['user_id'] ?>">
-            <? echo get_username_by_user_id($post['user_id']) ?>
-        </a>
+            <? echo get_username_by_user_id($post['user_id']) ?></a>
         <? echo format_date($post['created_at']) ?>
         <div class="pull-right">
             <? like_button($post_id, get_current_user_id()) ?>
