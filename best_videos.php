@@ -19,7 +19,7 @@ if (get_current_user_id()) {
     </div>
     <? post_list(get_best_posts_by_comments(10)) ?>
     <div class="page-header">
-        <h1>Найбільш залайкані</h1>
+        <h1>Найбільше лайків</h1>
     </div>
     <? post_list(get_best_posts_by_likes(10)) ?>
 </div>

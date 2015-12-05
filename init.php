@@ -259,7 +259,7 @@ function jumbotron() {
     <div class="jumbotron <? if ($logged_in): ?>welcome-logged-in<? else: ?>welcome<? endif ?>">
         <h1>Тюбограм</h1>
         <? if ($logged_in): ?>
-            <p>Найкращі відео Youtube, що обрали саме ви.<br>
+            <p>Найкращі відео YouTube, що обрали саме ви.<br>
                Найгарніші звірята, найтепліші коменти, найщиріші лайки.<br>
                Запрошуйте друзів та насолоджуйтеся!
             </p>
@@ -268,7 +268,7 @@ function jumbotron() {
             <p>Наполовину YouTube, наполовину Instagram. Це краще, що траплялося в інтернеті за останні 80 років. Усі гарні котики вже тут, приєднуйтеся і ви.
             </p>
             <p>
-                <a class="btn btn-primary btn-lg" href="<? echo APP_URL ?>/registration.php">Зареєструватися</a> или
+                <a class="btn btn-primary btn-lg" href="<? echo APP_URL ?>/registration.php">Зареєструватися</a> або
                 <a class="btn btn-default btn-lg" href="<? echo APP_URL ?>/login.php">Увійти</a>
             </p>
         <? endif ?>
@@ -477,13 +477,26 @@ function get_count_of_likes_by_post_id($post_id) {
 function get_count_of_comments_by_post_id($post_id) {
     global $db;
     $query = $db->prepare('
-        SELECT COUNT(post_id) 
+        SELECT COUNT(*) 
         FROM comments 
         WHERE post_id=:post_id;
     ');
     $query->bindValue(':post_id', $post_id, PDO::PARAM_INT);
     $query->execute();
     return (int) $query->fetchColumn();
+}
+
+function get_follower_count($user_id) {
+    global $db;
+    $query = $db->prepare('
+        SELECT COUNT(*)
+        FROM followers
+        WHERE user_id=:user_id
+    ');
+    $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $query->execute();
+    return (int) $query->fetchColumn();
+
 }
 
 function like_button($post_id, $user_id) {
