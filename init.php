@@ -261,7 +261,13 @@ function jumbotron() {
         <? if ($logged_in): ?>
             <p>Найкращі відео YouTube, що обрали саме ви.<br>
                Найгарніші звірята, найтепліші коменти, найщиріші лайки.<br>
-               Запрошуйте друзів та насолоджуйтеся!
+               Додавайте відео та запрошуйте друзів!
+            </p>
+            <p>
+                <a href="<? echo APP_URL ?>/create_post.php" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Додати відео
+                </a>
             </p>
 
         <? else: ?>
