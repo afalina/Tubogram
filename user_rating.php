@@ -1,4 +1,5 @@
 <? require 'init.php' ?>
+
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
@@ -8,20 +9,19 @@
 
 <?
 if (get_current_user_id()) {
-    page_header('logged', 'new_videos');
+    page_header('logged', 'user_rating');
 } else {
-    page_header('not_logged', 'new_videos');
+    page_header('not_logged', 'user_rating');
 }
 ?>
 
 <div class="container">
-    <? jumbotron() ?>
-
     <div class="page-header">
-        <h1>Нові відео</h1>
+        <h1>Рейтинг користувачів</h1>
     </div>
 
-    <? post_list(get_latest_posts(10)) ?>
+    <? $users = get_user_raiting();
+    display_user_raiting($users); ?>
 
 </div>
 

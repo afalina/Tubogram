@@ -212,6 +212,7 @@ function page_header($header_type, $active_menu_item=null) {
                 <? if ($header_type == 'logged'): ?>
                     <li <? if ($active_menu_item == 'feed'): ?>class="active"<? endif ?>><a href="<? echo APP_URL ?>/feed.php">Мої підписки</a></li>
                 <? endif ?>
+                <li <? if ($active_menu_item == 'user_rating'): ?>class="active"<? endif ?>><a href="<? echo APP_URL ?>/user_rating.php">Рейтинг користувачів</a></li>
             </ul>
 
             <form class="navbar-form navbar-left" method="get" action="<? echo APP_URL ?>/search_user.php">
@@ -506,14 +507,25 @@ function get_follower_count($user_id) {
 }
 
 function like_button($post_id, $user_id) {
-    $liked = is_liked($post_id, $user_id);
-    ?>
-        <button class="btn like-button <? if ($liked): ?>liked<? endif ?>" data-post="<? echo $post_id ?>">
-            Мені подобається
+    $like_count = get_count_of_likes_by_post_id($post_id);
+    if ($user_id) {
+        $liked = is_liked($post_id, $user_id);
+        ?>
+            <button class="btn like-button <? if ($liked): ?>liked<? endif ?>" data-post="<? echo $post_id ?>">
+                Мені подобається
+                <span class="glyphicon glyphicon-heart heart"></span>
+                <span class="count"><? echo $like_count ?></span>
+            </button>
+        <?
+    } else {
+        ?>
+        <small>
+            Менi подобається
             <span class="glyphicon glyphicon-heart heart"></span>
-            <span class="count"><? echo get_count_of_likes_by_post_id($post_id) ?></span>
-        </button>
-    <?
+            <? echo $like_count ?>
+        </small>
+        <?
+    }
 }
 
 function get_best_posts_by_comments($limit) {
@@ -566,6 +578,40 @@ function get_best_posts_by_likes($limit) {
     $query->bindValue(':limit', $limit, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_user_raiting() {
+    global $db;
+    $query = $db->prepare('
+        SELECT 
+            users.id, users.username,
+            (SELECT COUNT(*) FROM followers WHERE followers.user_id = users.id) AS follower_count
+        FROM users
+        LEFT JOIN followers ON
+            followers.user_id = users.id
+        GROUP BY users.id
+        ORDER BY follower_count DESC;
+    ');
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function display_user_raiting($users) {
+    $i = 1;
+    ?>
+    <table class="table" style="width: 380px;">
+        <? foreach ($users as $user): ?>
+            <tr>
+                <td><? echo $i . '. ' ?></td>
+                <td>
+                    <a href="<? echo APP_URL . '/user.php?id=' . $user['id'] ?>">
+                    <? echo $user['username']?></a>
+                </td>
+                <td> <? echo $user['follower_count']?> підписників </td>
+                <? $i++ ?>
+            </tr>
+        <? endforeach ?>
+    </table><?
 }
 
 $db = new PDO(
