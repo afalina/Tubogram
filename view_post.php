@@ -91,6 +91,7 @@ if (get_current_user_id()) {
             $count.text(data);
         });
     });
+
     $('.like-button.logged-out').popover({
         content: '<a href="<? echo APP_URL . '/login.php' ?>">Увійдіть</a> або <a href="<? echo APP_URL . '/registration.php' ?>">зареєструйтеся</a>',
         placement: 'left',
