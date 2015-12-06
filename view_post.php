@@ -80,7 +80,7 @@ if (get_current_user_id()) {
 <? page_footer() ?>
 
 <script>
-    $('.like-button').on('click', function() {
+    $('.like-button.logged-in').on('click', function() {
         var $count = $(this).find('.count');
         var postId = $(this).data('post');
         var liked = $(this).hasClass('liked');
@@ -90,5 +90,11 @@ if (get_current_user_id()) {
         $.post(url, {post_id: postId}, function (data) {
             $count.text(data);
         });
+    });
+    $('.like-button.logged-out').popover({
+        content: '<a href="<? echo APP_URL . '/login.php' ?>">Увійдіть</a> або <a href="<? echo APP_URL . '/registration.php' ?>">зареєструйтеся</a>',
+        placement: 'left',
+        trigger: 'focus',
+        html: true
     });
 </script>

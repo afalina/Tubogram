@@ -508,24 +508,22 @@ function get_follower_count($user_id) {
 
 function like_button($post_id, $user_id) {
     $like_count = get_count_of_likes_by_post_id($post_id);
-    if ($user_id) {
-        $liked = is_liked($post_id, $user_id);
-        ?>
-            <button class="btn like-button <? if ($liked): ?>liked<? endif ?>" data-post="<? echo $post_id ?>">
-                Мені подобається
-                <span class="glyphicon glyphicon-heart heart"></span>
-                <span class="count"><? echo $like_count ?></span>
-            </button>
-        <?
-    } else {
-        ?>
-        <small>
-            Менi подобається
-            <span class="glyphicon glyphicon-heart heart"></span>
-            <? echo $like_count ?>
-        </small>
-        <?
+    $class = 'btn like-button';
+    if (is_liked($post_id, $user_id)) {
+        $class .= ' liked';
     }
+    if ($user_id) {
+        $class .= ' logged-in';
+    } else {
+        $class .= ' logged-out';
+    }
+    ?>
+        <button class="<? echo $class ?>" data-post="<? echo $post_id ?>">
+            Мені подобається
+            <span class="glyphicon glyphicon-heart heart"></span>
+            <span class="count"><? echo $like_count ?></span>
+        </button>
+    <?
 }
 
 function get_best_posts_by_comments($limit) {
