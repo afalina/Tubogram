@@ -71,6 +71,13 @@ form.inline {
     background-position: center center;
 }
 
+.jumbotron.page-not-found {
+    background-image: url(../images/geese.jpg);
+    background-size: cover;
+    background-position: center 75%;
+    color: white;
+}
+
 .video-player {
     background: #000;
     text-align: center;

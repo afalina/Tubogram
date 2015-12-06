@@ -518,10 +518,10 @@ function like_button($post_id, $user_id) {
         $class .= ' logged-out';
     }
     ?>
-        <button class="<? echo $class ?>" data-post="<? echo $post_id ?>">
+        <button class="<? echo $class ?>" data-post="<? echo escape_html($post_id) ?>">
             Мені подобається
             <span class="glyphicon glyphicon-heart heart"></span>
-            <span class="count"><? echo $like_count ?></span>
+            <span class="count"><? echo escape_html($like_count) ?></span>
         </button>
     <?
 }

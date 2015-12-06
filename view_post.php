@@ -3,6 +3,9 @@ require 'init.php';
 
 $post_id = $_GET['id'];
 $post = get_post_by_id($post_id);
+if (!$post) {
+    redirect(APP_URL . '/not_found.php');
+}
 $comments = get_post_comments($post_id);
 $comment_text = '';
 $errors = [];
@@ -16,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$errors) {
         $user_id = get_current_user_id();
         add_comment($post_id, $user_id, $comment_text);
-        redirect(APP_URL . '/view_post.php?id=' . $post_id);
+        redirect(APP_URL . '/view_post.php?id=' . escape_html($post_id));
     }
 }?>
 

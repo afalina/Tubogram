@@ -2,6 +2,9 @@
 require 'init.php';
 
 $user_id = $_GET['id'];
+if (!get_username_by_user_id($user_id)) {
+    redirect(APP_URL . '/not_found.php');
+}
 $page_url = APP_URL . '/user.php?id=' . $user_id;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['follow'])) {
