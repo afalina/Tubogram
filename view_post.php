@@ -69,8 +69,8 @@ if (get_current_user_id()) {
     <? else: ?>
         <div class="alert alert-info">
             Для того, щоб залишати коментарі та ставити лайк 
-            <a href="<?echo APP_URL . '/login.php'?>">увійдіть</a> або 
-            <a href="<?echo APP_URL . '/registration.php'?>">зареєструйтеся</a>.
+            <a href="<? echo APP_URL . '/login.php' ?>">увійдіть</a> або 
+            <a href="<? echo APP_URL . '/registration.php' ?>">зареєструйтеся</a>.
         </div>
     <? endif ?>
 
