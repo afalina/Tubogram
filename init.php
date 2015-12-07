@@ -333,7 +333,7 @@ function post_list($posts) { ?>
 function page_footer() { ?>
     <footer class="sticky-footer">
         <div class="container">
-            <div class="text-muted">&#x1F42C; 2015 Мария Бройде</div>
+            <div class="text-muted">&#x1F42C; 2015 <a href="vk.com/afalina21">Мария Бройде</a></div>
         </div>
     </footer>
     <?

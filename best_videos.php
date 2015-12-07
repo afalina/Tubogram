@@ -25,10 +25,10 @@ if (get_current_user_id()) {
     <br>
     <div class="tab-content">
         <div class="tab-pane active" id="most-likes">
-            <? post_list(get_best_posts_by_likes(10)) ?>
+            <? post_list(get_best_posts_by_likes(12)) ?>
         </div>
         <div class="tab-pane" id="most-comments">
-            <? post_list(get_best_posts_by_comments(10)) ?>
+            <? post_list(get_best_posts_by_comments(12)) ?>
         </div>
     </div>
 </div>

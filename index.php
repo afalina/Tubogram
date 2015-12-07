@@ -21,7 +21,7 @@ if (get_current_user_id()) {
         <h1>Нові відео</h1>
     </div>
 
-    <? post_list(get_latest_posts(10)) ?>
+    <? post_list(get_latest_posts(12)) ?>
 
 </div>
 
