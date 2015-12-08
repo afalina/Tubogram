@@ -95,10 +95,9 @@ if (get_current_user_id()) {
         });
     });
 
-    $('.like-button.logged-out').popover({
-        content: '<a href="<? echo APP_URL . '/login.php' ?>">Увійдіть</a> або <a href="<? echo APP_URL . '/registration.php' ?>">зареєструйтеся</a>',
+    $('.like-button').hoverablePopover({
         placement: 'left',
-        trigger: 'focus',
+        trigger: 'manual',
         html: true
     });
 </script>

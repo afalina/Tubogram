@@ -193,6 +193,7 @@ function js_and_css() {
     <link rel="stylesheet" href="styles/global.css">
     <script src="scripts/jquery.js"></script>
     <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/global.js"></script>
     <?
 }
 
@@ -290,8 +291,7 @@ function display_errors($errors) { ?>
     <?
 }
 
-function display_comments($comments) {
-    ?>
+function display_comments($comments) { ?>
     <? foreach ($comments as $comment): ?>
         <? $user_link = APP_URL . '/user.php?id=' . $comment['user_id'] ?>
         <a href="<? echo $user_link ?>"><strong><? echo $comment['username'] ?></strong></a>
@@ -508,6 +508,7 @@ function get_follower_count($user_id) {
 
 function like_button($post_id, $user_id) {
     $like_count = get_count_of_likes_by_post_id($post_id);
+    $users = get_users_who_liked_post($post_id);
     $class = 'btn like-button';
     if (is_liked($post_id, $user_id)) {
         $class .= ' liked';
@@ -518,7 +519,7 @@ function like_button($post_id, $user_id) {
         $class .= ' logged-out';
     }
     ?>
-        <button class="<? echo $class ?>" data-post="<? echo escape_html($post_id) ?>">
+        <button class="<? echo $class ?>" data-content="<? echo escape_html(links_for_users($users)) ?>" data-post="<? echo escape_html($post_id) ?>">
             Мені подобається
             <span class="glyphicon glyphicon-heart heart"></span>
             <span class="count"><? echo escape_html($like_count) ?></span>
@@ -620,7 +621,6 @@ function display_not_found_page(){ ?>
         <title>Tubogram</title>
         <? echo js_and_css() ?>
     </head>
-
     <?
     if (get_current_user_id()) {
         page_header('logged');
@@ -628,7 +628,6 @@ function display_not_found_page(){ ?>
         page_header('not_logged');
     }
     ?>
-
     <div class="container">
         <div class="jumbotron page-not-found">
             <h1>404</h1>
@@ -637,9 +636,48 @@ function display_not_found_page(){ ?>
             </p>
         </div>
     </div>
-
     <? page_footer() ?>
 <? exit;
+}
+
+function get_followers($user_id) {
+    global $db;
+    $query = $db->prepare('
+        SELECT
+            users.id,
+            users.username
+        FROM users
+        INNER JOIN followers ON
+            users.id = followers.follower_id
+        WHERE followers.user_id=:user_id;
+    ');
+    $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_users_who_liked_post($post_id) {
+    global $db;
+    $query = $db->prepare('
+        SELECT
+            users.id,
+            users.username
+        FROM users
+        INNER JOIN post_likes ON
+            post_likes.user_id = users.id AND
+            post_likes.post_id = :post_id
+    ');
+    $query->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function links_for_users($users) {
+    $links = [];
+    foreach ($users as $user) {
+        $links[] = '<a href="' . APP_URL . '/user.php?id=' . $user['id'] . '">' . $user['username'] . '</a>';
+    }
+    return implode(', ', $links);
 }
 
 $db = new PDO(

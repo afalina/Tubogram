@@ -5,6 +5,7 @@ $user_id = $_GET['id'];
 if (!get_username_by_user_id($user_id)) {
     display_not_found_page();
 }
+$followers = get_followers($user_id);
 $page_url = APP_URL . '/user.php?id=' . $user_id;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['follow'])) {
@@ -44,8 +45,8 @@ if (get_current_user_id()) {
                             <span class="glyphicon glyphicon-minus"></span>
                             Відписатися
                         </button>
-                        <button class="btn btn-default" style="background: transparent">
-                            <? echo $follower_count ?>
+                        <button class="btn btn-default followers" style="background: transparent" data-content="<? echo escape_html(links_for_users($followers)) ?>">
+                        <? echo $follower_count ?>
                         </button>
                     </form>
                 <? else: ?>
@@ -54,13 +55,15 @@ if (get_current_user_id()) {
                             <span class="glyphicon glyphicon-plus"></span>
                             Підписатися
                         </button>
-                        <button class="btn btn-default" style="background: transparent">
-                            <? echo $follower_count ?>
+                        <button class="btn btn-default followers" style="background: transparent" data-content="<? echo escape_html(links_for_users($followers)) ?>">
+                        <? echo $follower_count ?>
                         </button>
                     </form>
                 <? endif ?>
             <? else: ?>
-                <small><? echo $follower_count ?> підписчиків</small>
+                <button class="btn btn-default followers" style="background: transparent" data-content="<? echo escape_html(links_for_users($followers)) ?>">
+                        <? echo $follower_count ?> підписників
+                </button>
             <? endif ?>
         </h1>
     </div>
@@ -68,3 +71,10 @@ if (get_current_user_id()) {
     <? post_list(get_user_posts_by_user_id($user_id)) ?>
 </div>
 <? page_footer() ?>
+
+<script>
+    $('.followers').hoverablePopover({
+      placement: 'right',
+      html: true
+    });
+</script>
