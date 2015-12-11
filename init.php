@@ -614,7 +614,9 @@ function display_user_raiting($users) {
     <?
 }
 
-function display_not_found_page(){ ?>
+function display_not_found_page(){
+    header('HTTP/1.0 404 Not Found');
+    ?>
     <!DOCTYPE html>
     <head>
         <meta charset="utf-8">
