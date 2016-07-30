@@ -48,7 +48,7 @@ function logout_user() {
 }
 
 function get_current_user_id() {
-    return (int) $_SESSION['user_id'];
+    return isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
 }
 
 function require_login() {
